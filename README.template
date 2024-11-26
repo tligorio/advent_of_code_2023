@@ -41,7 +41,8 @@ Recommended first-time setup order:
 
 The available tools are:
 
-1. **Puzzle Input Scraper**  
+1. **Puzzle Input Scraper**    
+
     __Note:__ The input data for each challenge differs by user. If you are using this project as a template for your own solutions, you will need to obtain your own input data:  
  
     1. Log in to the [Advent of Code](https://adventofcode.com) 

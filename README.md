@@ -61,14 +61,14 @@ This repository contains my solutions to the Advent of Code 2023 challenges, cra
 This repository includes several Docker-based tools to help manage Advent of Code solutions. All tools are containerized, requiring only Docker installation (no local Python installation needed).
 
 Recommended first-time setup order:
-1. Set up .env with AOC_SESSION (see instructions below)
-2. Run scrape to get puzzle inputs
-3. Run templates to create solution files
-4. Run readme to generate initial README
+1. Run scrape to get puzzle inputs
+2. Run templates to create solution files
+3. Run readme to generate initial README
 
 The available tools are:
 
 1. **Puzzle Input Scraper**
+
     __Note:__ The input data for each challenge differs by user. If you are using this project as a template for your own solutions, you will need to obtain your own input data:
 
     1. Log in to the [Advent of Code](https://adventofcode.com)
