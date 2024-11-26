@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Data directory
+data/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Mac system files
+.DS_Store
+.DS_Store?

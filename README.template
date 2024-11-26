@@ -1,11 +1,10 @@
 # About
 
-In December 2024, I joined [Jeremy Howard's](https://jeremy.fast.ai) new course, [Solve It With Code](https://solveit.fast.ai), by [fast.ai](https://www.fast.ai). This unique program introduces a fresh approach to coding that combines iterative problem-solving with AI. It emphasizes building foundational skills without requiring a background in data structures or computer science. The course focuses on using Python (with minimal external libraries) and teaches an engineering technique that integrates AI as a collaborative tool ([source](https://solveit.fast.ai/course-details)).
+This repository was adapted from https://github.com/florianbuetow/solve-it-with-code-advent-2023/tree/main which was graciously shared with our cohort.
+
+We are in the first iteration of [Jeremy Howard's](https://jeremy.fast.ai) new course [Solve It With Code](https://solveit.fast.ai), by [fast.ai](https://www.fast.ai)
 
 This repository contains my solutions to the Advent of Code 2023 challenges, crafted using the engineering process taught in the course.
-While this repository does not document the engineering process itself, it showcases the Python solutions to the challenges. The solutions are organized in the [solutions](./solutions) folder, and the input data for each challenge is stored in the [data](./data) folder.
-
-__Note:__ The input data for each challenge differs by user. If you are using this project as a template for your own solutions, you will need to log in to the [Advent of Code](https://adventofcode.com) website to download your personal puzzle input data and use it to replace the existing files in the [./data/](./data/) folder. To update the [table of challenges](#table-of-challenges), read these [instructions](#generating-this-readme) below.
 
 ## Table of Challenges
 
@@ -15,23 +14,68 @@ __Note:__ The input data for each challenge differs by user. If you are using th
 
 ```bash
 .
-├── Dockerfile                      <- Defines the environment for generating the README in Docker
-├── README.md                       <- You are reading this right now
-├── README.template                 <- Template for dynamically generating the README file
-├── challenges.json                 <- Metadata about Advent of Code 2023 challenges
-├── generate_file_templates.py      <- Script to create consistent file templates for challenges
-├── generate_readme.py              <- Script to generate the README dynamically
-├── generate_readme_using_docker.sh <- Runs generate_readme.py inside a Docker container
-├── requirements.txt                <- Lists the Python dependencies for the project
-├── data                            <- Contains input and sample data for challenges
-│   ├── dayXX.txt                   <- Main input data for each challenge
-│   ├── dayXX_sample.txt            <- Sample input from the challenge description for testing
-│   └── dayXX_test.txt              <- Additional test data (optional)
-└── solutions                       <- Contains Python solution scripts for each challenge
-    └── *.py                        <- Python scripts for solving individual challenges
+├── .env                            # Environment variables file (contains AOC_SESSION)
+├── challenges.json                 # JSON file containing challenge titles and numbers
+├── Dockerfile                      # Defines the Docker image for running the tools
+├── README.md                       # Generated README file
+├── README.template                 # Template for generating README.md
+├── data/                           # Directory containing puzzle input files
+├── docker_entrypoint.sh            # Script that handles different operations inside Docker container
+├── generate_file_templates.py      # Script to generate solution file templates
+├── generate_readme.py              # Script to generate README.md from template
+├── puzzle_scraper.py               # Script to download puzzle inputs from AoC website
+├── requirements.txt                # Python package dependencies
+├── run_aoc_tools.sh                # Shell script to run Docker operations
+└── solutions/                      # Directory containing solution files
 ```
----
-## Generating this README
+
+
+## Repository Tools
+
+This repository includes several Docker-based tools to help manage Advent of Code solutions. All tools are containerized, requiring only Docker installation (no local Python installation needed).
+
+Recommended first-time setup order:
+1. Run scrape to get puzzle inputs
+2. Run templates to create solution files
+3. Run readme to generate initial README
+
+The available tools are:
+
+1. **Puzzle Input Scraper**  
+    __Note:__ The input data for each challenge differs by user. If you are using this project as a template for your own solutions, you will need to obtain your own input data:  
+ 
+    1. Log in to the [Advent of Code](https://adventofcode.com) 
+    2. Open browser Developer Tools (F12)
+    3. Go to Application/Storage > Cookies
+    4. Copy the value of the 'session' cookie 
+    5. Create a `.env` file:
+    ```bash
+        touch .env
+    ```
+    6. Add your session cookie to `.env`:
+        ```
+        AOC_SESSION=your_session_cookie_value
+        ```
+
+   Downloads puzzle inputs from Advent of Code website and writes them to the `data/` directory:
+   ```bash
+   ./run_aoc_tools.sh scrape
+   ```
+ 
+
+2. **Solution Templates Generator**  
+   Creates template files for all puzzle solutions and writes them to the `solutions/` directory:
+   ```bash
+   ./run_aoc_tools.sh templates
+   ```
+
+3. **README Generator**  
+   Updates this README with current solution status:
+   ```bash
+   ./run_aoc_tools.sh readme
+   ```
+
+
 
 Generating the `README.md` file updates the cells of the challenges table based on the metadata from the `challenges.json` file the content (!) of the solution files automatically.
 
@@ -53,7 +97,7 @@ or
 ...
 ```
 
-To generate the `README.md` file, follow these steps:
+*Before you can use the repository tools, follow these steps:*
 
 #### 0. Prerequisites
 
@@ -65,18 +109,23 @@ To generate the `README.md` file, follow these steps:
 Run the following command to make the script executable:
 
 ```bash
-chmod +x ./generate_readme_using_docker.sh
+chmod +x ./run_aoc_tools.sh
 ```
 
 #### 2. Build and Run the Docker Container
 
+Run either of the following commands based on your needs:
 ```bash
-./generate_readme_using_docker.sh
+./run_aoc_tools.sh scrape
+```
+or
+```bash
+   ./run_aoc_tools.sh templates
+   ```
+or
+```bash
+./run_aoc_tools.sh readme
 ```
 
 - This will build the Docker image each time it is run to avoid file caching issues.
-- It will then run the Docker container to execute the `generate_readme.py` script, which generates the `README.md` file and overwrites the exiting `README.md` file in your local directory.
-
-#### 3. Verify the Output
-
-Once the container execution is finished, you should see the updated `README.md` file in the same directory where you ran the script.
+- It will then run the Docker container to execute one of the scripts that generates the data in your local directory.
